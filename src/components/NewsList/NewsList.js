@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import axios from 'axios';
+import ScaleLoader from 'react-spinners/ScaleLoader';
 import NewsItem from '../NewsItem';
 import styles from './NewsItem.scss';
 
 const cx = classNames.bind(styles);
-
-const sampleArticle = {
-  title: '제목',
-  description: '내용',
-  url: 'https://google.com',
-  urlToImage: 'https://via.placeholder.com/160',
-};
 
 const NewsList = () => {
   const [articles, setArticles] = useState(null);
@@ -34,7 +28,11 @@ const NewsList = () => {
   }, []);
 
   if (loading) {
-    return <div className={cx('news-list-block')}>로딩중...</div>;
+    return (
+      <div className={cx('news-list-block')}>
+        <ScaleLoader />
+      </div>
+    );
   }
 
   if (!articles) {
