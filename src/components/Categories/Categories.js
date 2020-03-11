@@ -1,8 +1,37 @@
 import React from 'react';
 import classNames from 'classnames/bind';
+import styled, { css } from 'styled-components';
 import styles from './Categories.scss';
 
 const cx = classNames.bind(styles);
+
+const Category = styled.div`
+  font-size: 1.125rem;
+  cursor: pointer;
+  white-space: pre;
+  text-decoration: none;
+  color: inherit;
+  padding-bottom: 0.25rem;
+
+  &:hover {
+    color: #495057;
+  }
+
+  ${props =>
+    props.active &&
+    css`
+      font-weight: 600;
+      border-bottom: 2px solid #22b8cf;
+      color: #22b8cf;
+      &:hover {
+        color: #3bc9db;
+      }
+    `}
+
+  & + & {
+    margin-left: 1rem;
+  }
+`;
 
 const categories = [
   {
@@ -35,13 +64,17 @@ const categories = [
   },
 ];
 
-const Categories = () => {
+const Categories = ({ onSelect, category }) => {
   return (
     <div className={cx('categories-block')}>
       {categories.map(c => (
-        <div className={cx('category')} key={c.name}>
+        <Category
+          key={c.name}
+          active={category === c.name}
+          onClick={() => onSelect(c.name)}
+        >
           {c.text}
-        </div>
+        </Category>
       ))}
     </div>
   );
