@@ -7,16 +7,18 @@ import styles from './NewsItem.scss';
 
 const cx = classNames.bind(styles);
 
-const NewsList = () => {
+const NewsList = ({ category }) => {
   const [articles, setArticles] = useState(null);
   const [loading, setLoading] = useState(false);
-
+  console.log(category);
   useEffect(() => {
+    // async를 사용하는 함수 따로 선언
     const fetchData = async () => {
       setLoading(true);
       try {
+        const query = category === 'all' ? '' : `&category=${category}`;
         const response = await axios.get(
-          'http://newsapi.org/v2/top-headlines?country=kr&apiKey=cd17adb8cbaa410a8a79e4dee580e4e2',
+          `https://newsapi.org/v2/top-headlines?country=kr${query}&apiKey=cd17adb8cbaa410a8a79e4dee580e4e2`,
         );
         setArticles(response.data.articles);
       } catch (e) {
@@ -25,7 +27,7 @@ const NewsList = () => {
       setLoading(false);
     };
     fetchData();
-  }, []);
+  }, [category]);
 
   if (loading) {
     return (
